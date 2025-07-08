@@ -16,8 +16,6 @@ func buildNetwork(a messaging.Agent, netCfg map[string]map[string]string, roles 
 	if len(netCfg) == 0 {
 		return nil, []error{errors.New("network configuration is nil or empty")}
 	}
-	//var router bool
-	//var roles = []string{LoggingRole, AuthorizationRole, CacheRole, RateLimitingRole, RoutingRole}
 
 	for _, role := range roles {
 		agentCfg, ok := netCfg[role]
@@ -30,16 +28,7 @@ func buildNetwork(a messaging.Agent, netCfg map[string]map[string]string, roles 
 			continue
 		}
 		chain = append(chain, link)
-		//if role == RoutingRole {
-		//	router = true
-		//	}
 	}
-	if len(errs) > 0 {
-		return
-	}
-	//if !router {
-	//	errs = append(errs, errors.New("no routing agent was configured"))
-	//	}
 	return
 }
 
