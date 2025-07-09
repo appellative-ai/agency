@@ -3,7 +3,7 @@ package network
 import (
 	"encoding/json"
 	"errors"
-	access "github.com/behavioral-ai/core/access2"
+	"github.com/behavioral-ai/core/access"
 	"github.com/behavioral-ai/core/messaging"
 )
 

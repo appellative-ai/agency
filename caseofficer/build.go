@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/behavioral-ai/collective/exchange"
 	"github.com/behavioral-ai/collective/namespace"
-	"github.com/behavioral-ai/core/access2"
+	"github.com/behavioral-ai/core/access"
 	"github.com/behavioral-ai/core/messaging"
 )
 
@@ -50,7 +50,7 @@ func buildLink(role string, cfg map[string]string, officer messaging.Agent) (any
 		var global bool
 
 		// Determine if a global assignment is requested, or if the access agent is configured
-		if name == access2.NamespaceName || cfg[AssignmentKey] != AssignmentLocal {
+		if name == access.NamespaceName || cfg[AssignmentKey] != AssignmentLocal {
 			global = true
 			agent = exchange.Agent(name)
 		} else {
