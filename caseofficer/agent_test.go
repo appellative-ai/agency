@@ -6,7 +6,7 @@ import (
 )
 
 func ExampleNewAgent() {
-	a := newAgent("core:common:agent/caseofficer/request/http/test", operationstest.NewService())
+	a := newAgent("core:common:agent/caseofficer/request/http/test", operationstest.NewNotifier())
 
 	fmt.Printf("test: NewAgent() -> [%v]\n", a.Name())
 

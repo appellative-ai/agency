@@ -3,7 +3,6 @@ package network
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appellative-ai/core/access"
 	"github.com/appellative-ai/core/messaging"
 )
 
@@ -31,6 +30,6 @@ func ConfigureOrigin(m map[string]string, read func() ([]byte, error)) error {
 	if !status.OK() {
 		return status.Err
 	}
-	access.Agent.SetOrigin(m2[messaging.RegionKey], m2[messaging.ZoneKey], m2[messaging.SubZoneKey], m2[messaging.HostKey], m2[messaging.InstanceIdKey])
+	//access.Agent.SetOrigin(m2[messaging.RegionKey], m2[messaging.ZoneKey], m2[messaging.SubZoneKey], m2[messaging.HostKey], m2[messaging.InstanceIdKey])
 	return nil
 }

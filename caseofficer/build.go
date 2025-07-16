@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/appellative-ai/collective/exchange"
 	"github.com/appellative-ai/collective/namespace"
-	"github.com/appellative-ai/core/access"
 	"github.com/appellative-ai/core/messaging"
 )
 
@@ -49,8 +48,8 @@ func buildLink(role string, cfg map[string]string, officer messaging.Agent) (any
 		var agent messaging.Agent
 		var global bool
 
-		// Determine if a global assignment is requested, or if the access agent is configured
-		if name == access.NamespaceName || cfg[AssignmentKey] != AssignmentLocal {
+		// Determine if a global assignment is requested
+		if cfg[AssignmentKey] != AssignmentLocal {
 			global = true
 			agent = exchange.Agent(name)
 		} else {
