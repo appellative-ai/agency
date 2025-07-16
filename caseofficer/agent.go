@@ -6,12 +6,6 @@ import (
 	"github.com/appellative-ai/core/messaging"
 )
 
-const (
-//NamespaceNamePrimary = "test:resiliency:agent/caseOfficer/service/traffic/ingress/primary"
-//NetworkNamePrimary   = "test:resiliency:network/service/traffic/ingress/primary"
-
-)
-
 type Agent interface {
 	messaging.Agent
 	BuildNetwork(m map[string]map[string]string, roles []string) ([]any, []error)
