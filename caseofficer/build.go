@@ -3,10 +3,10 @@ package caseofficer
 import (
 	"errors"
 	"fmt"
-	"github.com/behavioral-ai/collective/exchange"
-	"github.com/behavioral-ai/collective/namespace"
-	"github.com/behavioral-ai/core/access"
-	"github.com/behavioral-ai/core/messaging"
+	"github.com/appellative-ai/collective/exchange"
+	"github.com/appellative-ai/collective/namespace"
+	"github.com/appellative-ai/core/access"
+	"github.com/appellative-ai/core/messaging"
 )
 
 func buildNetwork(a messaging.Agent, netCfg map[string]map[string]string, roles []string) (chain []any, errs []error) {

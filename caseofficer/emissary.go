@@ -1,7 +1,7 @@
 package caseofficer
 
 import (
-	"github.com/behavioral-ai/core/messaging"
+	"github.com/appellative-ai/core/messaging"
 )
 
 // emissary attention

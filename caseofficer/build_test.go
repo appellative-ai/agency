@@ -2,10 +2,10 @@ package caseofficer
 
 import (
 	"fmt"
-	"github.com/behavioral-ai/collective/exchange"
-	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/core/messaging/messagingtest"
-	"github.com/behavioral-ai/core/rest"
+	"github.com/appellative-ai/collective/exchange"
+	"github.com/appellative-ai/core/messaging"
+	"github.com/appellative-ai/core/messaging/messagingtest"
+	"github.com/appellative-ai/core/rest"
 	"net/http"
 	"reflect"
 )

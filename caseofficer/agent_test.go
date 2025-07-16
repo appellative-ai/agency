@@ -2,7 +2,7 @@ package caseofficer
 
 import (
 	"fmt"
-	"github.com/behavioral-ai/collective/operations/operationstest"
+	"github.com/appellative-ai/collective/operations/operationstest"
 )
 
 func ExampleNewAgent() {

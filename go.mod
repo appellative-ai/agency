@@ -1,10 +1,10 @@
-module github.com/behavioral-ai/agency
+module github.com/appellative-ai/agency
 
 go 1.21.4
 
 require (
-	github.com/behavioral-ai/collective v0.0.0-20250705142106-af45d8806b5f
-	github.com/behavioral-ai/core v0.0.0-20250709183351-32fd9e61a702
+	github.com/appellative-ai/collective v0.0.0-20250716123620-7e95d5370b96
+	github.com/appellative-ai/core v0.0.0-20250716122441-ad699ae23a57
 )
 
 require github.com/google/uuid v1.6.0 // indirect

@@ -3,8 +3,8 @@ package network
 import (
 	"encoding/json"
 	"errors"
-	"github.com/behavioral-ai/core/access"
-	"github.com/behavioral-ai/core/messaging"
+	"github.com/appellative-ai/core/access"
+	"github.com/appellative-ai/core/messaging"
 )
 
 // ConfigureOrigin - map must provide region, zone, sub-zone, domain, collective, and service-name
