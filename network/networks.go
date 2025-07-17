@@ -40,6 +40,20 @@ func ShapeConfig(mapKey string, cfg []map[string]string) map[string]map[string]s
 	return newCfg
 }
 
+func ReadEndpointConfig(read func() ([]byte, error)) ([]map[string]string, error) {
+	var cfg []map[string]string
+
+	buf, err := read()
+	if err != nil {
+		return nil, err //fmt.Printf("test: readFile(\"%v\") -> [bytes:%v] [err:%v]\n", subDir+appFileName, len(buf), err)
+	}
+	err = json.Unmarshal(buf, &cfg)
+	if err != nil {
+		return nil, err //fmt.Printf("test: json.Unmarshal() -> [err:%v]\n", err)
+	}
+	return cfg, nil
+}
+
 /*
 func packErrors(errs []error) []error {
 	var result []error

@@ -6,8 +6,9 @@ import (
 )
 
 const (
-	networkFileName = "network-config-primary.json"
-	subDir          = "/networktest/resource/"
+	networkFileName  = "network-config-primary.json"
+	endpointFileName = "endpoint-config.json"
+	subDir           = "/networktest/resource/"
 )
 
 func readFile(fileName string) ([]byte, error) {
@@ -54,3 +55,15 @@ func ExampleValidateOfficer() {
 
 
 */
+
+func ExampleReadEndpointConfig() {
+	cfg, err := ReadEndpointConfig(func() ([]byte, error) {
+		return readFile(endpointFileName)
+	})
+
+	fmt.Printf("test: ReadEndpointConfig() -> %v [err:%v]\n", cfg, err)
+
+	//Output:
+	//test: ReadEndpointConfig() -> [map[endpoint:primary network:network-config-primary.json pattern:/primary] map[endpoint:secondary network:network-config-secondary.json pattern:/secondary]] [err:<nil>]
+
+}
