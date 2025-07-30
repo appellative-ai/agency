@@ -6,6 +6,7 @@ import (
 	"github.com/appellative-ai/collective/exchange"
 	"github.com/appellative-ai/collective/namespace"
 	"github.com/appellative-ai/core/messaging"
+	"github.com/appellative-ai/core/std"
 )
 
 func buildNetwork(a messaging.Agent, netCfg map[string]map[string]string, roles []string) (chain []any, errs []error) {
@@ -36,7 +37,7 @@ func buildLink(role string, cfg map[string]string, officer messaging.Agent) (any
 	if !ok || name == "" {
 		return nil, errors.New(fmt.Sprintf("agent or exchange name not found or is empty for role: %v", role))
 	}
-	switch namespace.Kind(name) {
+	switch std.Kind(name) {
 	case namespace.HandlerKind:
 		// Since this is only code and no state, the same link can be used in all networks
 		link := exchange.ExchangeHandler(name)
@@ -72,5 +73,5 @@ func buildLink(role string, cfg map[string]string, officer messaging.Agent) (any
 		return agent, nil
 	default:
 	}
-	return nil, errors.New(fmt.Sprintf("invalid Namespace kind: %v and role: %v", namespace.Kind(name), role))
+	return nil, errors.New(fmt.Sprintf("invalid Namespace kind: %v and role: %v", std.Kind(name), role))
 }

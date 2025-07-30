@@ -2,8 +2,9 @@ package caseofficer
 
 import (
 	"fmt"
-	"github.com/appellative-ai/collective/operations"
+	"github.com/appellative-ai/collective/notification"
 	"github.com/appellative-ai/core/messaging"
+	"github.com/appellative-ai/core/std"
 )
 
 type Agent interface {
@@ -20,15 +21,15 @@ type agentT struct {
 
 	ex       *messaging.Exchange
 	emissary *messaging.Channel
-	notifier *operations.Notification
+	notifier *notification.Interface
 }
 
 // NewAgent - create a new agent
 func NewAgent(name string) Agent {
-	return newAgent(name, operations.Notifier)
+	return newAgent(name, notification.Notifier)
 }
 
-func newAgent(name string, notifier *operations.Notification) *agentT {
+func newAgent(name string, notifier *notification.Interface) *agentT {
 	a := new(agentT)
 	a.name = name
 	a.notifier = notifier
@@ -59,7 +60,7 @@ func (a *agentT) Message(m *messaging.Message) {
 				messaging.UpdateAgent(a.name, func(agent messaging.Agent) {
 					err := a.ex.Register(agent)
 					if err != nil {
-						messaging.Reply(m, messaging.NewStatus(messaging.StatusInvalidContent, err.Error()), a.Name())
+						messaging.Reply(m, std.NewStatus(std.StatusInvalidContent, a.Name(), err), a.Name())
 					}
 				}, m)
 			} else {
