@@ -26,13 +26,13 @@ type agentT struct {
 
 // NewAgent - create a new agent
 func NewAgent(name string) Agent {
-	return newAgent(name, notification.Notifier)
+	return newAgent(name)
 }
 
-func newAgent(name string, notifier *notification.Interface) *agentT {
+func newAgent(name string) *agentT {
 	a := new(agentT)
 	a.name = name
-	a.notifier = notifier
+	a.notifier = notification.Notifier
 
 	a.ex = messaging.NewExchange()
 	a.emissary = messaging.NewEmissaryChannel()
