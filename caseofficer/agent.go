@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/appellative-ai/collective/notification"
 	"github.com/appellative-ai/core/messaging"
-	"github.com/appellative-ai/core/std"
+	"sync/atomic"
 )
 
 type Agent interface {
@@ -16,26 +16,25 @@ type Agent interface {
 
 // TODO : need host name
 type agentT struct {
-	running bool
+	running atomic.Bool
 	name    string
 
 	ex       *messaging.Exchange
-	emissary *messaging.Channel
 	notifier *notification.Interface
 }
 
 // NewAgent - create a new agent
 func NewAgent(name string) Agent {
-	return newAgent(name)
+	return newAgent(name, notification.Notifier)
 }
 
-func newAgent(name string) *agentT {
+func newAgent(name string, notifier *notification.Interface) *agentT {
 	a := new(agentT)
+	a.running.Store(false)
 	a.name = name
-	a.notifier = notification.Notifier
+	a.notifier = notifier
 
 	a.ex = messaging.NewExchange()
-	a.emissary = messaging.NewEmissaryChannel()
 	return a
 }
 
@@ -54,53 +53,37 @@ func (a *agentT) Message(m *messaging.Message) {
 	if m == nil {
 		return
 	}
-	if !a.running {
-		if m.Name == messaging.ConfigEvent {
-			if m.IsRecipient(a.name) {
-				messaging.UpdateAgent(a.name, func(agent messaging.Agent) {
-					err := a.ex.Register(agent)
-					if err != nil {
-						messaging.Reply(m, std.NewStatus(std.StatusInvalidContent, a.Name(), err), a.Name())
-					}
-				}, m)
-			} else {
-				a.ex.Message(m)
-			}
-			return
-		}
-		if m.Name == messaging.StartupEvent {
-			a.run()
-			a.running = true
-			a.ex.Broadcast(m)
-			return
-		}
-		return
-	}
-	if m.Name == messaging.ShutdownEvent {
-		a.running = false
-	}
-	// System events
 	switch m.Name {
-	case messaging.ShutdownEvent, messaging.PauseEvent, messaging.ResumeEvent:
-		a.emissary.C <- m
+	case messaging.ConfigEvent:
+		a.config(m)
+		return
+	case messaging.StartupEvent:
+		if a.running.Load() {
+			return
+		}
+		a.running.Store(true)
+		//a.run()
+		//a.emissary.C <- m
+		a.ex.Broadcast(m)
+		return
+	case messaging.ShutdownEvent:
+		if !a.running.Load() {
+			return
+		}
+		a.running.Store(false)
+		//a.emissary.C <- m
+		a.ex.Broadcast(m)
+		return
+	case messaging.PauseEvent, messaging.ResumeEvent:
+		//a.emissary.C <- m
 		a.ex.Broadcast(m)
 		return
 	}
+
 	list := m.To()
 	// No recipient, or only the case officer recipient
-	if len(list) == 0 || len(list) == 1 && list[0] == a.name {
-		switch m.Channel() {
-		case messaging.ChannelEmissary:
-			a.emissary.C <- m
-		case messaging.ChannelControl:
-			a.emissary.C <- m
-		default:
-			fmt.Printf("limiter - invalid channel %v\n", m)
-		}
-		return
-	}
-	/*
-		if list[0] == NetworkNamePrimary {
+	if len(list) == 0 || (len(list) == 1 && list[0] == a.name) {
+		/*
 			switch m.Channel() {
 			case messaging.ChannelEmissary:
 				a.emissary.C <- m
@@ -109,10 +92,10 @@ func (a *agentT) Message(m *messaging.Message) {
 			default:
 				fmt.Printf("limiter - invalid channel %v\n", m)
 			}
-			return
-		}
 
-	*/
+		*/
+		return
+	}
 	// Send to appropriate agent
 	a.ex.Message(m)
 }
@@ -123,15 +106,6 @@ func (a *agentT) BuildNetwork(net map[string]map[string]string, roles []string) 
 
 func (a *agentT) Operative(name string) messaging.Agent {
 	return a.ex.Get(name)
-}
-
-// Run - run the agent
-func (a *agentT) run() {
-	go emissaryAttend(a)
-}
-
-func (a *agentT) shutdown() {
-	a.emissary.Close()
 }
 
 /*
