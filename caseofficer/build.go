@@ -29,6 +29,9 @@ func buildNetwork(a messaging.Agent, netCfg map[string]map[string]string, roles 
 		}
 		chain = append(chain, link)
 	}
+	if len(chain) == 0 {
+		return nil, []error{errors.New("no links found for network configuration")}
+	}
 	return
 }
 

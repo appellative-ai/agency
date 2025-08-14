@@ -114,7 +114,7 @@ func ExampleBuildNetwork_Error() {
 	//test: buildNetwork() -> [chain:[]] [agent is nil]
 	//test: buildNetwork() -> [chain:[]] [network configuration is nil or empty]
 	//test: buildNetwork() -> [chain:[]] [network configuration is nil or empty]
-	//test: buildNetwork() -> [chain:[]] [agent or exchange name not found or is empty for role: authorization]
+	//test: buildNetwork() -> [chain:[]] [no links found for network configuration]
 
 }
 
