@@ -8,5 +8,9 @@ github.com/appellative-ai/core v0.0.0-20250812104341-e45bd6077904 h1:aSbjnAs8qCp
 github.com/appellative-ai/core v0.0.0-20250812104341-e45bd6077904/go.mod h1:a8kfuZMJHcdtdksSK+aYw2Mp6lT+i25oQEB+UCqwyhs=
 github.com/appellative-ai/core v0.0.0-20250814231639-62b7d2e2727f h1:Ydr5r8guvl0XGrhodbmHKUNOKZqSBJS82k62pmPjezw=
 github.com/appellative-ai/core v0.0.0-20250814231639-62b7d2e2727f/go.mod h1:a8kfuZMJHcdtdksSK+aYw2Mp6lT+i25oQEB+UCqwyhs=
+github.com/appellative-ai/core v0.0.0-20250815113507-4091ce28c306 h1:1EbqveWAfBoka1Vd6/MRjPUBxTVjiMjsUMHqPLO9Z7g=
+github.com/appellative-ai/core v0.0.0-20250815113507-4091ce28c306/go.mod h1:a8kfuZMJHcdtdksSK+aYw2Mp6lT+i25oQEB+UCqwyhs=
+github.com/appellative-ai/core v0.0.0-20250815122620-d6c9ef48503c h1:PXOO8rVhSLAd2I017+A50HSZL51FxhCqr45txuJhjJg=
+github.com/appellative-ai/core v0.0.0-20250815122620-d6c9ef48503c/go.mod h1:a8kfuZMJHcdtdksSK+aYw2Mp6lT+i25oQEB+UCqwyhs=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
