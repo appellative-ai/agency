@@ -25,7 +25,7 @@ func ExampleBuildNetworkConfig() {
 
 	//Output:
 	//test: buildNetworkConfig() -> [map[common:core:role/authorization/http:map[name:common:resiliency:handler/authorization/http] common:core:role/cache/request/http:map[cache-control:no-store, no-cache, max-age=0 fri:22-23 host:localhost:8081 mon:8-16 name:common:resiliency:agent/cache/request/http sat:3-8 sun:13-15 thu:0-23 timeout-duration:750ms tue:6-10 wed:12-12] common:core:role/logging/request:map[name:common:resiliency:agent/logging/request] common:core:role/rate-limiting/request/http:map[assignment:local name:common:resiliency:agent/rate-limiting/request/http off-peak-duration:5m peak-duration:750ms rate-limit:1234 review-duration:567] common:core:role/routing/request/http:map[app-host:localhost:8080 assignment:global cache-host:localhost:8081 name:common:resiliency:agent/routing/request/http review-duration:4m timeout-duration:2m]]] [err:<nil>]
-	
+
 }
 
 /*
@@ -64,6 +64,6 @@ func ExampleReadEndpointConfig() {
 	fmt.Printf("test: ReadEndpointConfig() -> %v [err:%v]\n", cfg, err)
 
 	//Output:
-	//test: ReadEndpointConfig() -> [map[endpoint:primary network:network-config-primary.json pattern:/primary] map[endpoint:secondary network:network-config-secondary.json pattern:/secondary]] [err:<nil>]
-
+	//test: ReadEndpointConfig() -> [map[endpoint:primary network:network-config-primary.json pattern:/primary test:true] map[endpoint:secondary network:network-config-secondary.json pattern:/secondary test:false]] [err:<nil>]
+	
 }
