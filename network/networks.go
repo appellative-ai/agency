@@ -9,7 +9,7 @@ const (
 	roleKey = "role"
 )
 
-func BuildConfig(fileName string, read func(fileName string) ([]byte, error)) (map[string]map[string]string, error) {
+func BuildConfig(fileName string, read func(fileName string) ([]byte, error)) ([]map[string]string, error) {
 	var buf []byte
 	var err error
 	var appCfg []map[string]string
@@ -28,7 +28,7 @@ func BuildConfig(fileName string, read func(fileName string) ([]byte, error)) (m
 	if err != nil {
 		return nil, err
 	}
-	return ShapeConfig(roleKey, appCfg), nil
+	return appCfg, nil //ShapeConfig(roleKey, appCfg), nil
 }
 
 func ShapeConfig(mapKey string, cfg []map[string]string) map[string]map[string]string {
