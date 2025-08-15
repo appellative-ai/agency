@@ -60,12 +60,12 @@ func buildOperative(officer messaging.Agent, name string, cfg map[string]string)
 
 		// Add agent to case officer exchange if not global
 		if !global {
-			m := messaging.NewAgentMessage(agent).AddTo(officer.Name())
+			m := messaging.NewConfigMessage(agent).AddTo(officer.Name())
 			officer.Message(m)
 
 			// TODO: wait for reply?
-			agent.Message(messaging.NewMapMessage(cfg))
-			agent.Message(messaging.NewAgentMessage(officer))
+			agent.Message(messaging.NewConfigMessage(cfg))
+			agent.Message(messaging.NewConfigMessage(officer))
 		}
 		return agent, nil
 	default:
