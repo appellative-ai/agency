@@ -34,38 +34,31 @@ func authorization(next rest.Exchange) rest.Exchange {
 	}
 }
 
-func ExampleBuildLink_Error() {
-	//name := "any:any:aspect/test/one"
-	role := "test-role"
+func ExampleBuildOperative_Error() {
 	cfg := make(map[string]string)
 	agent := messagingtest.NewAgent("agent\test")
 
-	t, err := buildLink(role, cfg, agent)
-	fmt.Printf("test: buildLink(\"%v\") -> [%v] [err:%v]\n", cfg[NameKey], t, err)
+	name := "any:any:aspect/test/one"
+	t, err := buildOperative(agent, name, cfg)
+	fmt.Printf("test: buildOperative(\"%v\") -> [%v] [err:%v]\n", name, t, err)
 
-	cfg[NameKey] = "any:any:aspect/test/one"
-	t, err = buildLink(role, cfg, agent)
-	fmt.Printf("test: buildLink(\"%v\") -> [%v] [err:%v]\n", cfg[NameKey], t, err)
+	name = "any:any:link/test/one"
+	t, err = buildOperative(agent, name, cfg)
+	fmt.Printf("test: buildOperative(\"%v\") -> [%v] [err:%v]\n", name, t, err)
 
-	cfg[NameKey] = "any:any:link/test/one"
-	t, err = buildLink(role, cfg, agent)
-	fmt.Printf("test: buildLink(\"%v\") -> [%v] [err:%v]\n", cfg[NameKey], t, err)
-
-	cfg[NameKey] = "any:any:agent/test/one"
-	t, err = buildLink(role, cfg, agent)
-	fmt.Printf("test: buildLink(\"%v\") -> [%v] [err:%v]\n", cfg[NameKey], t, err)
+	name = "any:any:agent/test/one"
+	t, err = buildOperative(agent, name, cfg)
+	fmt.Printf("test: buildOperative(\"%v\") -> [%v] [err:%v]\n", name, t, err)
 
 	//Output:
-	//test: buildLink("") -> [<nil>] [err:agent or exchange name not found or is empty for role: test-role]
-	//test: buildLink("any:any:aspect/test/one") -> [<nil>] [err:invalid Namespace kind: aspect and role: test-role]
-	//test: buildLink("any:any:link/test/one") -> [<nil>] [err:invalid Namespace kind: link and role: test-role]
-	//test: buildLink("any:any:agent/test/one") -> [<nil>] [err:agent is nil for name: any:any:agent/test/one and role: test-role]
+	//test: buildOperative("any:any:aspect/test/one") -> [<nil>] [err:invalid namespace kind: aspect]
+	//test: buildOperative("any:any:link/test/one") -> [<nil>] [err:invalid namespace kind: link]
+	//test: buildOperative("any:any:agent/test/one") -> [<nil>] [err:agent is nil for name: any:any:agent/test/one]
 
 }
 
-func ExampleBuildLink() {
+func ExampleBuildOperative() {
 	name := "any:any:handler/test/one"
-	role := "test-role"
 	cfg := make(map[string]string)
 	cfg[NameKey] = "any:any:handler/test/one"
 
@@ -73,64 +66,52 @@ func ExampleBuildLink() {
 	exchange.RegisterExchangeHandler(name, authorization)
 
 	cfg[NameKey] = name
-	t, err := buildLink(role, cfg, agent)
-	fmt.Printf("test: buildLink() -> [%v] [err:%v]\n", reflect.TypeOf(t), err)
+	t, err := buildOperative(agent, name, cfg)
+	fmt.Printf("test: buildOperative() -> [%v] [err:%v]\n", reflect.TypeOf(t), err)
 
 	name = "any:any:agent/test/one"
 	cfg[NameKey] = name
 	exchange.RegisterConstructor(name, func() messaging.Agent {
-		return messagingtest.NewAgent("agent\test2")
+		return messagingtest.NewAgent(name)
 	})
-	t, err = buildLink(role, cfg, agent)
-	fmt.Printf("test: buildLink() -> [%v] [err:%v]\n", reflect.TypeOf(t), err)
+	t, err = buildOperative(agent, name, cfg)
+	fmt.Printf("test: buildOperative() -> [%v] [err:%v]\n", reflect.TypeOf(t), err)
 
 	//Output:
-	//test: buildLink() -> [func(rest.Exchange) rest.Exchange] [err:<nil>]
-	//test: buildLink() -> [*messagingtest.AgentT] [err:<nil>]
+	//test: buildOperative() -> [func(rest.Exchange) rest.Exchange] [err:<nil>]
+	//test: buildOperative() -> [*messagingtest.AgentT] [err:<nil>]
 
 }
 
 func ExampleBuildNetwork_Error() {
-	name := "*:*:link/test/one"
 	officer := messagingtest.NewAgent("*:*:agent/test")
-	netCfg := make(map[string]map[string]string)
+	var netCfg []map[string]string
 
-	chain, errs := buildNetwork(nil, nil, nil)
+	chain, errs := buildNetwork(nil, nil)
 	fmt.Printf("test: buildNetwork() -> [chain:%v] %v\n", chain, errs)
 
-	chain, errs = buildNetwork(officer, nil, nil)
+	chain, errs = buildNetwork(officer, netCfg)
 	fmt.Printf("test: buildNetwork() -> [chain:%v] %v\n", chain, errs)
 
-	chain, errs = buildNetwork(officer, netCfg, roles)
-	fmt.Printf("test: buildNetwork() -> [chain:%v] %v\n", chain, errs)
-
-	exchange.RegisterExchangeHandler(name, authorization)
-
-	netCfg[authorizationRole] = map[string]string{}
-	chain, errs = buildNetwork(officer, netCfg, roles)
+	netCfg = append(netCfg, make(map[string]string))
+	chain, errs = buildNetwork(officer, netCfg)
 	fmt.Printf("test: buildNetwork() -> [chain:%v] %v\n", chain, errs)
 
 	//Output:
 	//test: buildNetwork() -> [chain:[]] [agent is nil]
 	//test: buildNetwork() -> [chain:[]] [network configuration is nil or empty]
-	//test: buildNetwork() -> [chain:[]] [network configuration is nil or empty]
-	//test: buildNetwork() -> [chain:[]] [no links found for network configuration]
+	//test: buildNetwork() -> [chain:[]] [operative name not found or is empty]
 
 }
 
 func ExampleBuildNetwork() {
 	officer := messagingtest.NewAgent("*:*:agent/test")
-	netCfg := make(map[string]map[string]string)
-
+	var netCfg []map[string]string
 	exchange.RegisterExchangeHandler(namespaceNameAuth, authorization)
 
-	netCfg[authorizationRole] = map[string]string{NameKey: namespaceNameAuth}
-	chain, errs := buildNetwork(officer, netCfg, roles)
+	netCfg = append(netCfg, map[string]string{NameKey: namespaceNameAuth})
+	chain, errs := buildNetwork(officer, netCfg)
 	fmt.Printf("test: buildNetwork() -> [chain:%v] %v\n", len(chain), errs)
-
-	//netCfg[routingRole] = map[string]string{NameKey: routing.NamespaceName}
-	//chain, errs = buildNetwork(officer, netCfg, roles)
-	//fmt.Printf("test: buildNetwork() -> [chain:%v] %v\n", len(chain), errs)
 
 	//Output:
 	//test: buildNetwork() -> [chain:1] []

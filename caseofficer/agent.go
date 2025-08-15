@@ -9,7 +9,7 @@ import (
 
 type Agent interface {
 	messaging.Agent
-	BuildNetwork(m map[string]map[string]string, roles []string) ([]any, []error)
+	BuildNetwork(m []map[string]string) ([]any, []error)
 	Operative(mame string) messaging.Agent
 	Trace()
 }
@@ -100,8 +100,8 @@ func (a *agentT) Message(m *messaging.Message) {
 	a.ex.Message(m)
 }
 
-func (a *agentT) BuildNetwork(net map[string]map[string]string, roles []string) (chain []any, errs []error) {
-	return buildNetwork(a, net, roles)
+func (a *agentT) BuildNetwork(net []map[string]string) (operatives []any, errs []error) {
+	return buildNetwork(a, net)
 }
 
 func (a *agentT) Operative(name string) messaging.Agent {

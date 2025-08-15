@@ -9,7 +9,7 @@ import (
 	"github.com/appellative-ai/core/std"
 )
 
-func buildNetwork(a messaging.Agent, netCfg map[string]map[string]string, roles []string) (chain []any, errs []error) {
+func buildNetwork(a messaging.Agent, netCfg []map[string]string) (operatives []any, errs []error) {
 	if a == nil {
 		return nil, []error{errors.New("agent is nil")}
 	}
@@ -17,37 +17,31 @@ func buildNetwork(a messaging.Agent, netCfg map[string]map[string]string, roles 
 		return nil, []error{errors.New("network configuration is nil or empty")}
 	}
 
-	for _, role := range roles {
-		agentCfg, ok := netCfg[role]
-		if !ok {
+	for _, m := range netCfg {
+		name, ok := m[NameKey]
+		if !ok || name == "" {
+			errs = append(errs, errors.New(fmt.Sprintf("operative name not found or is empty")))
 			continue
 		}
-		link, err := buildLink(role, agentCfg, a)
+		op, err := buildOperative(a, name, m)
 		if err != nil {
 			errs = append(errs, err)
 			continue
 		}
-		chain = append(chain, link)
-	}
-	if len(chain) == 0 {
-		return nil, []error{errors.New("no links found for network configuration")}
+		operatives = append(operatives, op)
 	}
 	return
 }
 
-func buildLink(role string, cfg map[string]string, officer messaging.Agent) (any, error) {
-	name, ok := cfg[NameKey]
-	if !ok || name == "" {
-		return nil, errors.New(fmt.Sprintf("agent or exchange name not found or is empty for role: %v", role))
-	}
+func buildOperative(officer messaging.Agent, name string, cfg map[string]string) (any, error) {
 	switch std.Kind(name) {
 	case namespace.HandlerKind:
-		// Since this is only code and no state, the same link can be used in all networks
-		link := exchange.ExchangeHandler(name)
-		if link == nil {
-			return nil, errors.New(fmt.Sprintf("exchange handler is nil for name: %v and role: %v", name, role))
+		// Since this is only code and no state, the same operative can be used in all networks
+		operative := exchange.ExchangeHandler(name)
+		if operative == nil {
+			return nil, errors.New(fmt.Sprintf("exchange handler is nil for name: %v", name))
 		}
-		return link, nil
+		return operative, nil
 	case namespace.AgentKind:
 		var agent messaging.Agent
 		var global bool
@@ -61,7 +55,7 @@ func buildLink(role string, cfg map[string]string, officer messaging.Agent) (any
 			agent = exchange.NewAgent(name)
 		}
 		if agent == nil {
-			return nil, errors.New(fmt.Sprintf("agent is nil for name: %v and role: %v", name, role))
+			return nil, errors.New(fmt.Sprintf("agent is nil for name: %v", name))
 		}
 
 		// Add agent to case officer exchange if not global
@@ -76,5 +70,5 @@ func buildLink(role string, cfg map[string]string, officer messaging.Agent) (any
 		return agent, nil
 	default:
 	}
-	return nil, errors.New(fmt.Sprintf("invalid Namespace kind: %v and role: %v", std.Kind(name), role))
+	return nil, errors.New(fmt.Sprintf("invalid namespace kind: %v", std.Kind(name)))
 }

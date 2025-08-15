@@ -5,10 +5,6 @@ import (
 	"errors"
 )
 
-const (
-	roleKey = "role"
-)
-
 func BuildConfig(fileName string, read func(fileName string) ([]byte, error)) ([]map[string]string, error) {
 	var buf []byte
 	var err error
