@@ -15,7 +15,7 @@ func (a *agentT) configure(m *messaging.Message) {
 			var err error
 			a.operators, err = logx.InitOperators(ops)
 			if err != nil {
-				messaging.Reply(m, std.NewStatus(std.StatusInvalidArgument, "", err), a.Name())
+				messaging.Reply(m, std.NewStatus(std.StatusInvalidArgument, err), a.Name())
 			}
 		}
 	}

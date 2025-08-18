@@ -13,7 +13,7 @@ func (a *agentT) config(m *messaging.Message) {
 		if a1, ok := messaging.ConfigContent[messaging.Agent](m); ok {
 			err := a.agents.Register(a1)
 			if err != nil {
-				messaging.Reply(m, std.NewStatus(std.StatusInvalidContent, a.Name(), err), a.Name())
+				messaging.Reply(m, std.NewStatus(std.StatusInvalidContent, err), a.Name())
 			}
 		}
 		return

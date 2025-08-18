@@ -5,6 +5,7 @@ import (
 	"github.com/appellative-ai/collective/exchange"
 	"github.com/appellative-ai/core/messaging"
 	"github.com/appellative-ai/core/rest"
+	"github.com/appellative-ai/core/std"
 	"net/http"
 	"time"
 )
@@ -18,7 +19,7 @@ const (
 type AgentT interface {
 	messaging.Agent
 	LogEgress(start time.Time, duration time.Duration, route string, req any, resp any, timeout time.Duration)
-	LogStatus(name string, status any)
+	LogStatus(name string, status *std.Status)
 }
 
 var (
@@ -68,6 +69,6 @@ func (a *agentT) LogEgress(start time.Time, duration time.Duration, route string
 	logx.LogEgress(a.operators, start, duration, route, req, resp, timeout)
 }
 
-func (a *agentT) LogStatus(name string, status any) {
+func (a *agentT) LogStatus(name string, status *std.Status) {
 	logx.LogStatus(nil)
 }
