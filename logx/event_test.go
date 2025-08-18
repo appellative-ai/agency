@@ -2,21 +2,21 @@ package logx
 
 import (
 	"fmt"
-	"github.com/appellative-ai/core/std"
+	"github.com/appellative-ai/collective/operations"
 	"net/http"
 	"time"
 )
 
 var (
 	m = map[string]string{
-		std.RegionKey:      "region",
-		std.ZoneKey:        "zone",
-		std.SubZoneKey:     "sub-zone",
-		std.HostKey:        "host",
-		std.ServiceNameKey: "service-name",
-		std.InstanceIdKey:  "instance-id",
-		std.CollectiveKey:  "collective",
-		std.DomainKey:      "domain",
+		operations.RegionKey:      "region",
+		operations.ZoneKey:        "zone",
+		operations.SubZoneKey:     "sub-zone",
+		operations.HostKey:        "host",
+		operations.ServiceNameKey: "service-name",
+		operations.InstanceIdKey:  "instance-id",
+		operations.CollectiveKey:  "collective",
+		operations.DomainKey:      "domain",
 	}
 )
 
@@ -36,7 +36,11 @@ func _ExampleValue_Duration() {
 }
 
 func ExampleValue_Origin() {
-	std.SetOrigin(m)
+	operations.Origin.Region = "region"
+	operations.Origin.Zone = "zone"
+	operations.Origin.SubZone = "sub-zone"
+	operations.Origin.Host = "host"
+	operations.Origin.InstanceId = "instance-id"
 
 	data := event{}
 	fmt.Printf("test: Value(\"%v\") -> [%v]\n", "region", data.value(OriginRegionOperator))

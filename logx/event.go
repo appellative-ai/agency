@@ -2,8 +2,8 @@ package logx
 
 import (
 	"fmt"
+	"github.com/appellative-ai/collective/operations"
 	"github.com/appellative-ai/core/fmtx"
-	"github.com/appellative-ai/core/std"
 	"net/http"
 	"strconv"
 	"strings"
@@ -63,15 +63,15 @@ func (e *event) value(value string) string {
 
 		// Origin
 	case OriginRegionOperator:
-		return std.Origin.Region
+		return operations.Origin.Region
 	case OriginZoneOperator:
-		return std.Origin.Zone
+		return operations.Origin.Zone
 	case OriginSubZoneOperator:
-		return std.Origin.SubZone
+		return operations.Origin.SubZone
 	case OriginHostOperator:
-		return std.Origin.Host
+		return operations.Origin.Host
 	case OriginInstanceIdOperator:
-		return std.Origin.InstanceId
+		return operations.Origin.InstanceId
 
 		// Request
 	case RequestMethodOperator:

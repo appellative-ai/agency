@@ -5,7 +5,6 @@ import (
 	"github.com/appellative-ai/collective/exchange"
 	"github.com/appellative-ai/core/messaging"
 	"github.com/appellative-ai/core/rest"
-	"github.com/appellative-ai/core/std"
 	"net/http"
 	"time"
 )
@@ -15,22 +14,28 @@ const (
 	defaultRoute = "host"
 )
 
-// Agent - agent
-type Agent interface {
+// AgentT - agent
+type AgentT interface {
 	messaging.Agent
 	LogEgress(start time.Time, duration time.Duration, route string, req any, resp any, timeout time.Duration)
-	LogStatus(status any)
+	LogStatus(name string, status any)
 }
 
-type agentT struct {
-	operators []logx.Operator
-}
+var (
+	Agent AgentT
+)
 
 // init - register an agent constructor
 func init() {
 	exchange.RegisterConstructor(AgentName, func() messaging.Agent {
 		return newAgent()
 	})
+	Agent = newAgent()
+	exchange.Register(Agent)
+}
+
+type agentT struct {
+	operators []logx.Operator
 }
 
 func newAgent() *agentT {
@@ -44,16 +49,7 @@ func (a *agentT) Message(m *messaging.Message) {
 	}
 	switch m.Name {
 	case messaging.ConfigEvent:
-		if ops, ok := messaging.ConfigContent[[]logx.Operator](m); ok {
-			if len(ops) > 0 {
-				var err error
-				a.operators, err = logx.InitOperators(ops)
-				if err != nil {
-					messaging.Reply(m, std.NewStatus(std.StatusInvalidArgument, "", err), a.Name())
-				}
-			}
-		}
-		messaging.Reply(m, std.StatusOK, a.Name())
+		a.configure(m)
 		return
 	}
 }
@@ -72,6 +68,6 @@ func (a *agentT) LogEgress(start time.Time, duration time.Duration, route string
 	logx.LogEgress(a.operators, start, duration, route, req, resp, timeout)
 }
 
-func (a *agentT) LogStatus(status any) {
+func (a *agentT) LogStatus(name string, status any) {
 	logx.LogStatus(nil)
 }
