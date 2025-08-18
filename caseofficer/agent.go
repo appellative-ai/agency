@@ -19,7 +19,7 @@ type agentT struct {
 	running atomic.Bool
 	name    string
 
-	ex       *messaging.Exchange
+	agents   *messaging.Exchange
 	notifier *notification.Interface
 }
 
@@ -34,7 +34,7 @@ func newAgent(name string, notifier *notification.Interface) *agentT {
 	a.name = name
 	a.notifier = notifier
 
-	a.ex = messaging.NewExchange()
+	a.agents = messaging.NewExchange()
 	return a
 }
 
@@ -42,7 +42,7 @@ func newAgent(name string, notifier *notification.Interface) *agentT {
 func (a *agentT) Name() string { return a.name }
 
 func (a *agentT) Trace() {
-	list := a.ex.List()
+	list := a.agents.List()
 	for _, v := range list {
 		fmt.Printf("trace: %v -> %v\n", a.Name(), v)
 	}
@@ -64,7 +64,7 @@ func (a *agentT) Message(m *messaging.Message) {
 		a.running.Store(true)
 		//a.run()
 		//a.emissary.C <- m
-		a.ex.Broadcast(m)
+		a.agents.Broadcast(m)
 		return
 	case messaging.ShutdownEvent:
 		if !a.running.Load() {
@@ -72,11 +72,11 @@ func (a *agentT) Message(m *messaging.Message) {
 		}
 		a.running.Store(false)
 		//a.emissary.C <- m
-		a.ex.Broadcast(m)
+		a.agents.Broadcast(m)
 		return
 	case messaging.PauseEvent, messaging.ResumeEvent:
 		//a.emissary.C <- m
-		a.ex.Broadcast(m)
+		a.agents.Broadcast(m)
 		return
 	}
 
@@ -97,7 +97,7 @@ func (a *agentT) Message(m *messaging.Message) {
 		return
 	}
 	// Send to appropriate agent
-	a.ex.Message(m)
+	a.agents.Message(m)
 }
 
 func (a *agentT) BuildNetwork(net []map[string]string) (operatives []any, errs []error) {
@@ -105,7 +105,7 @@ func (a *agentT) BuildNetwork(net []map[string]string) (operatives []any, errs [
 }
 
 func (a *agentT) Operative(name string) messaging.Agent {
-	return a.ex.Get(name)
+	return a.agents.Get(name)
 }
 
 /*
