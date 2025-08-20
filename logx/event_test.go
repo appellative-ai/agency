@@ -36,11 +36,11 @@ func _ExampleValue_Duration() {
 }
 
 func ExampleValue_Origin() {
-	operations.Origin.Region = "region"
-	operations.Origin.Zone = "zone"
-	operations.Origin.SubZone = "sub-zone"
-	operations.Origin.Host = "host"
-	operations.Origin.InstanceId = "instance-id"
+	operations.Origin().Region = "region"
+	operations.Origin().Zone = "zone"
+	operations.Origin().SubZone = "sub-zone"
+	operations.Origin().Host = "host"
+	operations.Origin().InstanceId = "instance-id"
 
 	data := event{}
 	fmt.Printf("test: Value(\"%v\") -> [%v]\n", "region", data.value(OriginRegionOperator))

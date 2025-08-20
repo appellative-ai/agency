@@ -73,8 +73,8 @@ func LogEgress(operators []Operator, start time.Time, duration time.Duration, ro
 }
 
 // LogStatus - log status
-func LogStatus(status *std.Status) {
-	log.Printf("%v\n", status)
+func LogStatus(name string, status *std.Status) {
+	log.Printf("%v %v\n", name, status)
 }
 
 func SetTimeout(h http.Header, v time.Duration) {

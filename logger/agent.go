@@ -70,5 +70,5 @@ func (a *agentT) LogEgress(start time.Time, duration time.Duration, route string
 }
 
 func (a *agentT) LogStatus(name string, status *std.Status) {
-	logx.LogStatus(nil)
+	logx.LogStatus(name, status)
 }

@@ -8,6 +8,10 @@ github.com/appellative-ai/collective v0.0.0-20250818181015-8f3fbd32b28b h1:FOpxr
 github.com/appellative-ai/collective v0.0.0-20250818181015-8f3fbd32b28b/go.mod h1:fr+qkZd21tkn8jYkxuHLKQTO3w3fnarC7QvgzYzQ4cU=
 github.com/appellative-ai/collective v0.0.0-20250818194115-0e798980feb5 h1:KW0zRzD+JCofph9Xw1vxSHMlDficU/I68/WdV6x1Lcc=
 github.com/appellative-ai/collective v0.0.0-20250818194115-0e798980feb5/go.mod h1:WqeMHPVEPnEoH+S3M/lFYWu024raytqYS8YfVJ5zthM=
+github.com/appellative-ai/collective v0.0.0-20250819185636-ef394c1f373d h1:o268i8YkTZTI+VF+uc0N37fPZkWFWGba/ei2Y1WivqU=
+github.com/appellative-ai/collective v0.0.0-20250819185636-ef394c1f373d/go.mod h1:WqeMHPVEPnEoH+S3M/lFYWu024raytqYS8YfVJ5zthM=
+github.com/appellative-ai/collective v0.0.0-20250819193859-13844a2e5b50 h1:hltrxt8zGBJRfETWJk0I+H7osTZ69DXhz3Zbcy5Oypg=
+github.com/appellative-ai/collective v0.0.0-20250819193859-13844a2e5b50/go.mod h1:4o86mGogjCmnWidG38FSAdz65GXfve6wbR5VTum2rxg=
 github.com/appellative-ai/core v0.0.0-20250802190705-60a5cea3c61a h1:SaR9/V/bJ6lO6O2nyR+GKTb3lMJsieICSkmF9EDLcbY=
 github.com/appellative-ai/core v0.0.0-20250802190705-60a5cea3c61a/go.mod h1:a8kfuZMJHcdtdksSK+aYw2Mp6lT+i25oQEB+UCqwyhs=
 github.com/appellative-ai/core v0.0.0-20250812104341-e45bd6077904 h1:aSbjnAs8qCpAamkDe75el8WKB5cTnoNe4WoGQmmQINw=
@@ -24,5 +28,7 @@ github.com/appellative-ai/core v0.0.0-20250818185237-3fb7bbad9ea8 h1:9ukX8lOTYnR
 github.com/appellative-ai/core v0.0.0-20250818185237-3fb7bbad9ea8/go.mod h1:a8kfuZMJHcdtdksSK+aYw2Mp6lT+i25oQEB+UCqwyhs=
 github.com/appellative-ai/core v0.0.0-20250818193759-5a393a47130a h1:ZivAm1PHN4r4tey0E8G3fPp6r8IpoeYONMFNn5VbZSI=
 github.com/appellative-ai/core v0.0.0-20250818193759-5a393a47130a/go.mod h1:a8kfuZMJHcdtdksSK+aYw2Mp6lT+i25oQEB+UCqwyhs=
+github.com/appellative-ai/core v0.0.0-20250818203108-5886a4fed0fa h1:kmDF8XeOHUTqgvwDDU60fixqj1JyJuv5gmpWKFWIl2k=
+github.com/appellative-ai/core v0.0.0-20250818203108-5886a4fed0fa/go.mod h1:a8kfuZMJHcdtdksSK+aYw2Mp6lT+i25oQEB+UCqwyhs=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=

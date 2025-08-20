@@ -63,15 +63,15 @@ func (e *event) value(value string) string {
 
 		// Origin
 	case OriginRegionOperator:
-		return operations.Origin.Region
+		return operations.Origin().Region
 	case OriginZoneOperator:
-		return operations.Origin.Zone
+		return operations.Origin().Zone
 	case OriginSubZoneOperator:
-		return operations.Origin.SubZone
+		return operations.Origin().SubZone
 	case OriginHostOperator:
-		return operations.Origin.Host
+		return operations.Origin().Host
 	case OriginInstanceIdOperator:
-		return operations.Origin.InstanceId
+		return operations.Origin().InstanceId
 
 		// Request
 	case RequestMethodOperator:
