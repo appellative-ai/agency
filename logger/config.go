@@ -12,9 +12,10 @@ func (a *agentT) configure(m *messaging.Message) {
 	}
 	if ops, ok := messaging.ConfigContent[[]logx.Operator](m); ok {
 		if len(ops) > 0 {
-			var err error
-			a.operators, err = logx.InitOperators(ops)
-			if err != nil {
+			newOps, err := logx.InitOperators(ops)
+			if err == nil {
+				a.operators = newOps
+			} else {
 				messaging.Reply(m, std.NewStatus(std.StatusInvalidArgument, err), a.Name())
 			}
 		}
