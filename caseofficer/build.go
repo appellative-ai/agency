@@ -4,9 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"github.com/appellative-ai/collective/exchange"
-	"github.com/appellative-ai/collective/namespace"
 	"github.com/appellative-ai/core/messaging"
 	"github.com/appellative-ai/core/std"
+)
+
+const (
+	handlerKind = "handler"
+	agentKind   = "agent"
 )
 
 func buildNetwork(a messaging.Agent, netCfg []map[string]string) (operatives []any, errs []error) {
@@ -35,14 +39,14 @@ func buildNetwork(a messaging.Agent, netCfg []map[string]string) (operatives []a
 
 func buildOperative(officer messaging.Agent, name string, cfg map[string]string) (any, error) {
 	switch std.Kind(name) {
-	case namespace.HandlerKind:
+	case handlerKind:
 		// Since this is only code and no state, the same operative can be used in all networks
 		operative := exchange.ExchangeHandler(name)
 		if operative == nil {
 			return nil, errors.New(fmt.Sprintf("exchange handler is nil for name: %v", name))
 		}
 		return operative, nil
-	case namespace.AgentKind:
+	case agentKind:
 		var agent messaging.Agent
 		var global bool
 

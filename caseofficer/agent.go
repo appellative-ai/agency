@@ -2,7 +2,6 @@ package caseofficer
 
 import (
 	"fmt"
-	"github.com/appellative-ai/collective/notification"
 	"github.com/appellative-ai/core/messaging"
 	"sync/atomic"
 )
@@ -19,20 +18,18 @@ type agentT struct {
 	running atomic.Bool
 	name    string
 
-	agents   *messaging.Exchange
-	notifier *notification.Interface
+	agents *messaging.Exchange
 }
 
 // NewAgent - create a new agent
 func NewAgent(name string) Agent {
-	return newAgent(name, notification.Notifier)
+	return newAgent(name)
 }
 
-func newAgent(name string, notifier *notification.Interface) *agentT {
+func newAgent(name string) *agentT {
 	a := new(agentT)
 	a.running.Store(false)
 	a.name = name
-	a.notifier = notifier
 
 	a.agents = messaging.NewExchange()
 	return a
